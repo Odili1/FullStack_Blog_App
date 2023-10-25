@@ -64,7 +64,7 @@ exports.login = async (reqBody) => {
             }
         }
 
-        const validPassword = await userModel.isValidPassword(password);
+        const validPassword = await existingUser.isValidPassword(password);
 
         if (!validPassword){
             return {
@@ -84,6 +84,7 @@ exports.login = async (reqBody) => {
             token
         }
     } catch (error) {
+        console.log(error);
         return {
             statusCode: 400,
             message: 'Something went wrong. Please go back home',

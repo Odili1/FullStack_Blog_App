@@ -1,5 +1,8 @@
 const router = require('express').Router();
 const userService = require('./user.service');
+const cookieParser = require('cookie-parser');
+
+router.use(cookieParser())
 
 router.post('/signup', async(req, res) => {
     const reqBody = req.body;
@@ -12,13 +15,16 @@ router.post('/signup', async(req, res) => {
         res.render('signup', {message: response.message})
     }else{
         res.cookie('jwt', response.token);
-        res.redirect('/user/dasboard');
+        res.status(200).json({
+            ...response
+        })
+        // res.redirect('/user/dasboard');
     }
 })
 
 
 
-router.get('/login', async(req, res) => {
+router.post('/login', async(req, res) => {
     const reqBody = req.body;
 
     const response = await userService.login(reqBody);
@@ -29,7 +35,11 @@ router.get('/login', async(req, res) => {
         res.redirect('/404');
     }else{
         res.cookie('jwt', response.token)
-        res.redirect('/user/dashboard')
+        res.status(200).json({
+            ...response,
+            cookie: req.cookies.jwt
+        })
+        // res.redirect('/user/dashboard')
     }
 })
 
