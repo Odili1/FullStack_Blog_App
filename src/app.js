@@ -1,5 +1,6 @@
 const express = require('express');
-const db = require('./config/database')
+const db = require('./config/database');
+const userRoutes = require('./users/user.routes')
 require('dotenv').config();
 
 
@@ -18,7 +19,7 @@ app.use(express.urlencoded({extended: false}));
 app.use(express.json())
 
 // Root Routes
-app.get('/', )
+app.get('/user', userRoutes)
 
 
 // PORT
