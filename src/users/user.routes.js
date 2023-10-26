@@ -18,7 +18,7 @@ router.post('/signup', async(req, res) => {
         res.status(200).json({
             ...response
         })
-        // res.redirect('/user/dasboard');
+        res.redirect(`/dasboard/@${response.existingUser.email.split('@')[0]}`);
     }
 })
 
@@ -39,7 +39,7 @@ router.post('/login', async(req, res) => {
             ...response,
             cookie: req.cookies.jwt
         })
-        // res.redirect('/user/dashboard')
+        res.redirect(`/dashboard/@${response.existingUser.email.split('@')[0]}`)
     }
 })
 

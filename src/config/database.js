@@ -10,11 +10,11 @@ exports.connectDB = async(uri) => {
             console.log(`Database connected successfully`)
         });
 
-        mongoose.connect.on('disconnected', () => {
+        mongoose.connection.on('disconnected', () => {
             console.log(`Database disconnected`);
         });
 
-        mongoose.connect.on(`error`, (error) => {
+        mongoose.connection.on(`error`, (error) => {
             console.log(`An error occured while connecting to database ${error}`)
         })
     } catch (error) {
