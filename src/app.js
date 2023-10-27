@@ -52,6 +52,10 @@ app.get('/signup', (req, res) => {
     res.render('signup')
 })
 
+app.get('/new-story', (req, res) => {
+    res.render('newStory')
+})
+
 
 
 // Root Routes

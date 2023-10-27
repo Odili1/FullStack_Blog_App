@@ -1,10 +1,11 @@
+const userModel = require('../models/user.model');
 const blogModel = require('./../models/blog.model');
 
 
 
 exports.getBlogs = async () => {
     try {
-        const blogs = await blogModel.find({});
+        const blogs = await blogModel.find({state: 'published'});
 
         if (blogs.length == 0) {
             return {
@@ -46,10 +47,10 @@ exports.getPersonalBlogs = async (user) => {
             }
         }
 
-        if (myBlogs != 0) {
+        if (myBlogs != 0 ) {
             return {
                 statusCode: 200,
-                message: 'No published blog yet',
+                message: 'Blog fetched successfully',
                 blogs: myBlogs,
                 // user
             }
@@ -66,8 +67,41 @@ exports.getPersonalBlogs = async (user) => {
 
 
 
-exports.createBlog = () => {
+exports.createBlog = async (user, reqBody) => {
+    try {
+        // function to calculate reading time
+        function readingTime (text){
+            const words = text.split(/\s+/);
+            const wordCount = words.length;
+            let averageWPM = 200
+            let calcSec
+            let calcMin = wordCount / averageWPM
 
+            if (calcMin < 1){
+                calcSec = Math.floor(calcMin * 60);
+                return `${calcSec} seconds`
+            }else {
+                return `${calcMin} minutes`
+            }
+        }
+
+
+        const newBlog = await userModel.create({
+            title: reqBody.title,
+            description: reqBody.description,
+            body: reqBody.body,
+            author: `${user.firstName} ${user.lastName}`,
+            tags: [...reqBody.tags.split(',')],
+            read_count: 0,
+            reading_time: '',
+            user_id: user._id
+        })
+    } catch (error) {
+        return {
+            statusCode: 400,
+            message: 'Something went wrong. Click here to go home'
+        }
+    }
 }
 
 

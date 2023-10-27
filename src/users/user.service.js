@@ -32,7 +32,13 @@ exports.signup = async(reqBody) => {
             }
         }
 
-        const token = jwt.sign({_id: newUser._id, email: email}, process.env.JWT_SECRET, {expiresIn: '1h'});
+        const jwtPayload = {
+            _id: existingUser._id, 
+            email: existingUser.email, 
+            firstName: existingUser.first_name, lastName: existingUser.last_name
+        }
+
+        const token = jwt.sign({...jwtPayload}, process.env.JWT_SECRET, {expiresIn: '1h'});
 
         return {
             statusCode: 201,
@@ -74,7 +80,13 @@ exports.login = async (reqBody) => {
             }
         }
 
-        const token = jwt.sign({_id: existingUser._id, email: existingUser.email}, process.env.JWT_SECRET, {expiresIn: '1h'});
+        const jwtPayload = {
+            _id: existingUser._id, 
+            email: existingUser.email, 
+            firstName: existingUser.first_name, lastName: existingUser.last_name
+        }
+
+        const token = jwt.sign({...jwtPayload}, process.env.JWT_SECRET, {expiresIn: '1h'});
 
         return {
             statusCode: 200,
