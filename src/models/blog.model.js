@@ -1,4 +1,4 @@
-const {Schema, model} = require('mongoose');
+const {Schema, model, SchemaType} = require('mongoose');
 const shortid = require('shortid');
 
 const blogSchema = new Schema({
@@ -27,7 +27,7 @@ const blogSchema = new Schema({
         default: "draft"
     },
     tags: {
-        type: String
+        type: Schema.Types.Array
     },
     read_count: Number,
     reading_time: String,

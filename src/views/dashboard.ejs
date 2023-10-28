@@ -1,0 +1,65 @@
+<%-include('partials/header')%>
+
+<div class="mb-5 invisible">ah</div>
+
+<div class="container">
+    <div class="d-flex justify-content-between w-100 mb-5">
+        <h2><%= user.firstName[0].toUpperCase()%><%=user.firstName.slice(1) %> <%= user.lastName[0].toUpperCase()%><%=user.lastName.slice(1)%></h2>
+        <button type="submit" class="btn btn-success rounded "><a class="text-white" href="/new-story">write a story</a></button>
+    </div>
+
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link active" data-bs-toggle="tab" href="#published">Published</a>
+            <!-- <a class="nav-link me-4 fs-6" href="#published">Published</a> -->
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="tab" href="#drafts">Drafts</a>
+            <!-- <a class="nav-link" href="#drafts">Drafts</a> -->
+        </li>
+    </ul>
+    
+    <!-- Tab panes -->
+    <div class="tab-content mt-5">
+        <div class="tab-pane container active" id="published">
+            <%if (pubBlogs) {%>
+                <% pubBlogs.forEach(function(blog){%>
+                    <a>
+                        <h4><%= blog.title %></h4>
+                        <p><%= blog.description %></p>
+                        <div class="d-flex">
+                            <p class="me-2">timestamp</p>
+                            <p><%= blog.reading_time %> read</p>
+                        </div>
+                    </a>
+                <%}) %>
+            <%} else { %>
+                <p><%= message%></p>
+                <a class="fst-italic text-decoration-underline" href="/new-stroy">write</a> a story or <a class="fst-italic text-decoration-underline" href="/">read</a> on keynote
+            <%}%>
+        </div>
+        <div class="tab-pane container fade" id="drafts">
+            <%if (draftBlogs) {%>
+                <% draftBlogs.forEach(function(blog){%>
+                    <div class="border-bottom mb-5 lh-0">
+                        <h4 class="fw-bold"><%= blog.title %></h4>
+                        <p><%= blog.description %></p>
+                        <div class="d-flex">
+                            <p class="me-2">blog.createdAt</p>
+                            <p><%= blog.reading_time %> read</p>
+                        </div>
+                    </div>
+                <%}) %>
+            <%} else {%>
+                <p><%= message%></p>
+                <a class="fst-italic text-decoration-underline" href="/new-stroy">write</a> a story or <a class="fst-italic text-decoration-underline" href="/">read</a> on KeyNote
+            <%}%>
+        </div>
+    </div>
+
+
+
+</div>
+
+<%-include('partials/footer')%>

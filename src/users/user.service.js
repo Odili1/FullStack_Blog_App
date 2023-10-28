@@ -17,12 +17,14 @@ exports.signup = async(reqBody) => {
             }
         }
 
-        const newUser = userModel.create({
+        const newUser = await userModel.create({
             first_name: first_name,
             last_name: last_name,
             email: email,
             password: password
         })
+
+        console.log(newUser);
 
         if (!newUser){
             return {
@@ -33,9 +35,9 @@ exports.signup = async(reqBody) => {
         }
 
         const jwtPayload = {
-            _id: existingUser._id, 
-            email: existingUser.email, 
-            firstName: existingUser.first_name, lastName: existingUser.last_name
+            _id: newUser._id, 
+            email: newUser.email, 
+            firstName: newUser.first_name, lastName: newUser.last_name
         }
 
         const token = jwt.sign({...jwtPayload}, process.env.JWT_SECRET, {expiresIn: '1h'});
@@ -48,6 +50,7 @@ exports.signup = async(reqBody) => {
         }
 
     } catch (error) {
+        console.log(error);
         return {
             statusCode: 400,
             message: 'Something went wrong. Please go back home',

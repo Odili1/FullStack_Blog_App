@@ -6,19 +6,23 @@ exports.cookieAuth = (req, res, next) => {
         const token = req.cookies.jwt;
 
         if (!token) {
-            res.render('landPage', {user: null, status: 401, message: 'Signup or login to publish a blog'})
+            res.cookie('error', "Login or Signup to perform action")
+            res.redirect('/')
         }
-
+        
         const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-
+        
         if (!decodedToken) {
-            res.render('landPage', {user: null, status: 401, message: 'Signup or login to publish a blog'})
+            res.cookie('error', "Login or Signup to perform action")
+            res.redirect('/')
         }
-
+        
         res.locals.user = decodedToken;
-
+        res.cookie('user', decodedToken.email)
+        
         next()
     } catch (error) {
-        res.render('landPage', {user: null, status: 401, message: 'Login or Signup to access your dashboard'})
+        res.cookie('error', "Login or Signup to perform action");
+        res.redirect('/')
     }
 }
