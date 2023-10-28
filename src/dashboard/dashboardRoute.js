@@ -26,6 +26,14 @@ router.get('/@:name', async (req, res) => {
         // console.log(user);
         res.render('dashboard', {message: response.message, pubBlogs: response.pubBlogs, draftBlogs: response.draftBlogs, user})
     }
+});
+
+
+// Display Draft Post
+router.get('/@:name/draft/@:id', async(req, res) => {
+    const user = req.locals.user;
+
+    const
 })
 
 module.exports = router;

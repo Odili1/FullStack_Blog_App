@@ -41,7 +41,7 @@ app.get('/', async (req, res) => {
 
     // Login Error
     const error = req.cookies.error;
-    const user = req.cookies.user
+    const user =  req.cookies.user
 
     if (statusCode == 404){
         // console.log(response);

@@ -36,24 +36,26 @@
                 <%}) %>
             <%} else { %>
                 <p><%= message%></p>
-                <a class="fst-italic text-decoration-underline" href="/new-stroy">write</a> a story or <a class="fst-italic text-decoration-underline" href="/">read</a> on keynote
+                <a class="fst-italic text-decoration-underline" href="/new-story">write</a> a story or <a class="fst-italic text-decoration-underline" href="/">read</a> on keynote
             <%}%>
         </div>
         <div class="tab-pane container fade" id="drafts">
             <%if (draftBlogs) {%>
                 <% draftBlogs.forEach(function(blog){%>
                     <div class="border-bottom mb-5 lh-0">
-                        <h4 class="fw-bold"><%= blog.title %></h4>
-                        <p><%= blog.description %></p>
-                        <div class="d-flex">
-                            <p class="me-2">blog.createdAt</p>
-                            <p><%= blog.reading_time %> read</p>
-                        </div>
+                        <a  href="/dashboard/@<%=user.email.split('@')[0]%>/draft/<%=blog._id%>">
+                            <h4 class="fw-bold"><%= blog.title %></h4>
+                            <p><%= blog.description %></p>
+                            <div class="d-flex">
+                                <p class="me-2 fw=light">Saved on <%= blog.time_saved %></p>
+                                <p><%= blog.reading_time %> read</p>
+                            </div>
+                        </a>
                     </div>
                 <%}) %>
             <%} else {%>
                 <p><%= message%></p>
-                <a class="fst-italic text-decoration-underline" href="/new-stroy">write</a> a story or <a class="fst-italic text-decoration-underline" href="/">read</a> on KeyNote
+                <a class="fst-italic text-decoration-underline" href="/new-story">write</a> a story or <a class="fst-italic text-decoration-underline" href="/">read</a> on KeyNote
             <%}%>
         </div>
     </div>

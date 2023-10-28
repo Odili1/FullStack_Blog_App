@@ -37,7 +37,7 @@ exports.getBlogs = async () => {
 exports.getPersonalBlogs = async (user) => {
     try {
         // Get blogs by user_id
-        const myBlogs = await blogModel.find({user_id: user._id});
+        let myBlogs = await blogModel.find({user_id: user._id});
 
         
         if (myBlogs.length == 0){
@@ -48,15 +48,26 @@ exports.getPersonalBlogs = async (user) => {
                 // user
             }
         }
+
+        // Format Dates
+        myBlogs = myBlogs.map((blog) => {
+            let date = Date(blog.createdAt).split(/(?<=\d{4})\s/)[0].split(' ').slice(1);
+            date.splice(2,0,',');
+            blog.time_saved = date.join(' ');
+
+            return blog
+        })
         
         // Published Blogs
         const pubBlogs = myBlogs.filter((blog) => blog.state == 'published');
         // console.log('timestmp', pubBlogs.createdAt);
         
         // Draft Blogs
-        const draftBlogs = myBlogs.filter((blog) => blog.state == 'draft')
+        let draftBlogs = myBlogs.filter((blog) => blog.state == 'draft')
+
+
         
-            // console.log( 'timestamp', draftBlogs[1].createdAt.split('-'));
+        console.log( 'timestamp', draftBlogs[0].time_saved);
         
 
         if (pubBlogs.length == 0 || draftBlogs.length == 0) {
