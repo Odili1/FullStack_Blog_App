@@ -4,7 +4,7 @@ const db = require('./config/database');
 const userRoutes = require('./users/user.routes');
 const blogRoutes = require('./blogs/blog.routes');
 const blogService = require('./blogs/blog.service');
-const dashboardRoute = require('./dashboard/dashboardRoute')
+const dashboardRoute = require('./dashboard/dashboard.route')
 const auth = require('./auth/globalAuth');
 const cookieParser = require('cookie-parser');
 
@@ -35,10 +35,11 @@ app.use(cookieParser());
 
 
 // Route Rendering
+// Landing Page
 app.get('/', async (req, res) => {
     // Get blogs to display
     const {blogs, message, statusCode} = await blogService.getBlogs();
-
+    // console.log('landingpage', blogs);
     // Login Error
     const error = req.cookies.error;
     const user =  req.cookies.user
@@ -51,12 +52,34 @@ app.get('/', async (req, res) => {
     }else{
         // console.log(blogs);
         res.clearCookie('error')
-        res.clearCookie('user')
+        // res.clearCookie('user')
         // console.log('user details', req.cookies.user);
         // console.log('error', req.cookies.error);
         res.render('landPage', {error, message, blogs: blogs, user: user ? user.split('@')[0] : false})
     }
 });
+
+
+// Route View Individual Public Post
+app.get('/@:authorEmail/:title', async (req, res) => {
+    const authorEmail = req.params.authorEmail;
+    const title_blog_id = req.params.title;
+    const user =  req.cookies.user
+
+    const response = await blogService.viewPublicPost(title_blog_id);
+
+    if (response.statusCode == 404){
+        // console.log(response);
+        res.render('landPage', {error: response.message})
+    } else if (response.statusCode == 400){
+        res.redirect('/404')
+    }else{
+
+        res.render('publicBlogs', {error: response.message, blog: response.blog, user: user ? user.split('@')[0] : false})
+    }
+})
+
+
 
 app.get('/login', (req, res) => {
     res.render('login', {user: (res.locals.user || null), message: null})
@@ -80,7 +103,6 @@ app.get('/new-story', auth.cookieAuth, (req, res) => {
     res.render('newStory', )
 })
 
-// Profile
 
 
 
@@ -88,7 +110,6 @@ app.get('/new-story', auth.cookieAuth, (req, res) => {
 // Root Routes
 app.use('/user', userRoutes)
 app.use('/dashboard', dashboardRoute)
-// app.use('/dashboard', blogRoutes)
 app.use('/post', blogRoutes)
 
 

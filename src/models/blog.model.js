@@ -31,6 +31,10 @@ const blogSchema = new Schema({
     },
     read_count: Number,
     reading_time: String,
+    time_published: {
+        type: Date,
+        default: Date.now()
+    },
     user_id: {
         type: String,
         ref: "users"

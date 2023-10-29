@@ -30,24 +30,6 @@
             resize: none; 
           }
 
-        /* .textarea {
-          display: block;
-          width: 100%;
-          overflow: hidden;
-          resize: none;
-          min-height: 100px;
-          line-height: 20px;
-          padding: 2em;
-        }
-
-        .textarea[contenteditable]:empty::before {
-          content: "Tell your story...";
-          color: gray;
-        } */
-
-        /* textarea{
-          resize: none
-        } */
     </style>
 </head>
 <body>
@@ -68,7 +50,11 @@
         </form>
       </div>
 
-      <a class="fst-normal fs-5" href="/new-story"><img class="me-1" width="20" height="20" src="https://img.icons8.com/external-those-icons-lineal-those-icons/24/external-Write-content-and-copywriting-those-icons-lineal-those-icons-5.png" alt="external-Write-content-and-copywriting-those-icons-lineal-those-icons-5"/>write</a>
+      <div class="d-flex justify-content-between">
+        <a class="fst-normal fs-5 me-5" href="/new-story"><img class="me-1" width="20" height="20" src="https://img.icons8.com/external-those-icons-lineal-those-icons/24/external-Write-content-and-copywriting-those-icons-lineal-those-icons-5.png" alt="external-Write-content-and-copywriting-those-icons-lineal-those-icons-5"/>write</a>
+
+        <a class="nav-link fs-5 ms-3" href="/dashboard/@<%= user%>">Dashboard</a>
+      </div>
 
       <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -112,7 +98,7 @@
                 </li>
                 <li class="nav-item">
                   <button type="submit" class="btn btn-success"><a class="nav-link active text-white" aria-current="page" href="/signup">Signup</a></button>
-                  <!-- <button type="button" class="btn btn-outline-success py-1 px-2 rounded border-opacity-50 rounded-pill "><a class="nav-link active" aria-current="page" href="/signup">Signup</a></button> -->
+
                 </li>
               </div>
             <%}%>

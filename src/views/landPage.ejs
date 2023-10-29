@@ -13,22 +13,37 @@
     
 <main class="">
     <div class="container w-75">
-        <% blogs.forEach(function(blog){%>
-            <div class="blogSet border-bottom">
-                <div class="top d-flex">
-                    <img class="me-2" width="23" height="23" src="https://img.icons8.com/ios/50/guest-male.png" alt="guest-male"/>
-                    <p class="fs-6 me-2"><%= blog.author %></p> 
-                    <span>date</span>
+        <%if (blogs) {%>
+            <% blogs.forEach(function(blog){%>
+                <div class="blogSet border-bottom mb-5 pb-5">
+                    <a href="/post/<%=blog.user_id%>/<%=blog._id%>">
+                        <div class="top d-flex ay-center">
+                            <img class="me-2" width="23" height="23" src="https://img.icons8.com/ios/50/guest-male.png" alt="guest-male"/>
+                            <p class="fs-5 me-2 fw-medium"><%= blog.author%></p> <span class="me-2">-</span>
+                            <span class="fw-light"><%= blog.published_time %></span>
+                        </div>
+                        <h4 class="fw-bold"><%= blog.title %></h4>
+                        <p><%= blog.description %></p>
+                        <div class="bottom d-flex align-items-middle mt-3 fs-6 fw-lighter">
+                            <div class="me-3">
+                                <% blog.tags.forEach(function(tag){%>
+                                    <span class="me-3 fw-lighter bg-dark-subtle rounded-pill py-1 px-3"><%= tag %></span>
+                                <%}) %>
+                            </div>
+    
+                            <p class="me-3 fw-lighter ay-end"><%= blog.reading_time %> read</p>
+
+                            <div class="d-flex">
+                                <img class="align-middle ms-3 me-1 mt-1" width="20" height="20"  src="https://img.icons8.com/material-outlined/24/visible--v1.png" alt="visible--v1"/>
+                                <p class="fw-lighter">2<%= blog.read_count %></p>
+                            </div>
+                        </div>
+                    </a>
                 </div>
-                <h4><%= blog.title %></h4>
-                <p><%= blog.description %></p>
-                <div class="bottom d-flex fs-6 fw-lighter">
-                    <p class="me-2 fw-lighter"><%= blog.tags %></p>
-                    <p class="me-2 fw-lighter"><%= blog.reading_time %> read</p>
-                    <p class="fw-lighter"><%= blog.read_count %></p>
-                </div>
-            </div>
-        <%}) %>
+            <%}) %>
+        <%} else {%>
+            <h4 class="text-center"><%= message%> <br>New Site</h4>
+        <%}%>
     </div>
 </main>
 
