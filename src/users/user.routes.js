@@ -39,8 +39,9 @@ router.post('/login', userMiddleware.validateLogin, async(req, res) => {
         res.cookie('jwt', response.token);
         res.cookie('user', response.existingUser.email)
 
-        res.redirect('/')
-        // res.redirect(`/profile/@${response.existingUser.email.split('@')[0]}`)
+        console.log('login');
+        // res.redirect('/')
+        res.redirect(`/dashboard/@${response.existingUser.email.split('@')[0]}`)
     }
 })
 

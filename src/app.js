@@ -52,8 +52,8 @@ app.get('/', async (req, res) => {
     }else{
         // console.log(blogs);
         res.clearCookie('error')
-        // res.clearCookie('user')
-        // console.log('user details', req.cookies.user);
+        res.clearCookie('user')
+        console.log('user details', req.cookies.user);
         // console.log('error', req.cookies.error);
         res.render('landPage', {error, message, blogs: blogs, user: user ? user.split('@')[0] : false})
     }
