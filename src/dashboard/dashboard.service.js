@@ -35,6 +35,7 @@ exports.getDraftPost = async (blog_id) => {
 }
 
 
+// Service to Publish Post 
 exports.publishPost = async(blog_id) => {
     try {
         // Get post to publish
@@ -66,6 +67,7 @@ exports.publishPost = async(blog_id) => {
 }
 
 
+// Service to View Published Post
 exports.viewPublishedPost = async(blog_id) => {
     try {
         // Get blogs by user_id
