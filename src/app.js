@@ -76,9 +76,9 @@ app.get('/search', async (req, res) => {
         // console.log(response);
         res.render('noBlogs', {error: response.message, blogs: response.matchedBlogs, user: user ? user.split('@')[0] : false})
     } else if (response.statusCode == 400){
-        res.redirect('/404')
+        res.render('noBlogs', {error: response.message, blogs: response.matchedBlogs, user: user ? user.split('@')[0] : false})
     }else{
-        res.render('landpage', {error: response.message, blogs: response.matchedBlogs, user: user ? user.split('@')[0] : false})
+        res.render('landpage', {error: null, blogs: response.matchedBlogs, user: user ? user.split('@')[0] : false})
     }
 })
 

@@ -220,7 +220,7 @@ exports.searchBlogs = async (query) => {
             $or: [
                 {title: {$regex: query, $options: 'i'}},
                 {author: {$regex: query, $options: 'i'}},
-                {tags: {$all: [query]}}
+                {tags: {$all: {$regex: query, $options: 'i'}}}
             ]
         })
 
@@ -253,7 +253,7 @@ exports.searchBlogs = async (query) => {
         console.log(error);
         return {
             statusCode: 400,
-            message: 'Something went wrong while fecthing the blog',
+            message: "Couldn't process request",
             matchedBlogs: null
         }
     }
