@@ -30,7 +30,7 @@
         <div class="mb-5 invisible">ah</div>
 
         <div class="buttons d-flex justify-content-around my-5">
-            <button type="submit" class="btn btn-danger rounded "><a class="text-white" href="/post/@<%=user.email.split('@')[0]%>/<%=blog._id%>/delete">Delete</a></button>
+            <button type="submit" class="btn btn-danger rounded "><a class="text-white" href="/posts/@<%=user.email.split('@')[0]%>/<%=blog._id%>/delete">Delete</a></button>
 
             <!-- Edit Button -->
             <!-- Button trigger modal -->
@@ -65,7 +65,7 @@
                             ></button>
                         </div>
                         <form
-                            action="/post/@<%=user.email.split('@')[0]%>/<%=blog._id%>/update"
+                            action="/posts/@<%=user.email.split('@')[0]%>/<%=blog._id%>/update"
                             method="post"
                         >
                             <!-- Title -->

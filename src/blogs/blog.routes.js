@@ -34,8 +34,6 @@ router.get('/:user_id/:blog_id', async(req, res) => {
 
 
 
-
-
 // Protected Routes --------------------------------------
 router.use(auth.cookieAuth)
 

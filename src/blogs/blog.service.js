@@ -212,6 +212,53 @@ exports.viewPublicPost = async (title_blog_id) => {
 }
 
 
+// Search Public Post
+exports.searchBlogs = async (query) => {
+    try {
+        // Query Database
+        const matchedBlogs = await blogModel.find({
+            $or: [
+                {title: {$regex: query, $options: 'i'}},
+                {author: {$regex: query, $options: 'i'}},
+                {tags: {$all: [query]}}
+            ]
+        })
+
+        console.log(matchedBlogs);
+
+        if (!matchedBlogs){
+            return {
+                statusCode: 400,
+                message: 'Something went wrong while fecthing the blog',
+                blogs: null
+            }
+        }
+
+        if (matchedBlogs.length == 0){
+            return {
+                statusCode: 404,
+                message: 'No blogs found',
+                matchedBlogs: []
+            }
+        }
+
+        if (matchedBlogs.length != 0){
+            return {
+                statusCode: 200,
+                message: 'Search successful',
+                matchedBlogs
+            }
+        }
+    } catch (error) {
+        console.log(error);
+        return {
+            statusCode: 400,
+            message: 'Something went wrong while fecthing the blog',
+            matchedBlogs: null
+        }
+    }
+}
+
 
 
 // Update Blog Service
