@@ -32,7 +32,7 @@ router.post('/login', userMiddleware.validateLogin, async(req, res) => {
     const response = await userService.login(reqBody);
 
     if (response.statusCode == 404){
-        res.render('login', {message: response.message})
+        res.render('login', {message: response.message, user: null})
     }else if (response.statusCode == 400) {
         res.redirect('/404');
     }else{

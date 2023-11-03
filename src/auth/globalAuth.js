@@ -7,14 +7,14 @@ exports.cookieAuth = (req, res, next) => {
 
         if (!token) {
             res.cookie('error', "Login or Signup to perform action")
-            res.redirect('/')
+            res.redirect('/logout')
         }
         
         const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
         
         if (!decodedToken) {
             res.cookie('error', "Login or Signup to perform action")
-            res.redirect('/')
+            res.redirect('/logout')
         }
         
         res.locals.user = decodedToken;
@@ -23,6 +23,6 @@ exports.cookieAuth = (req, res, next) => {
         next()
     } catch (error) {
         res.cookie('error', "Login or Signup to perform action");
-        res.redirect('/')
+        res.redirect('/logout')
     }
 }

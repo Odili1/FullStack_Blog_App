@@ -60,9 +60,32 @@ app.get('/', async (req, res) => {
 });
 
 
+// Search Functionality
+app.get('/search', async (req, res) => {
+    const query = req.query.q;
+    const user = req.cookies.user
+
+    // If there's no query, redirect to home page with all values
+    if (!query) {
+        res.redirect('back')
+    }
+
+    const response = await blogService.searchBlogs(query);
+
+    if (response.statusCode == 404){
+        // console.log(response);
+        res.render('noBlogs', {error: response.message, blogs: response.matchedBlogs, user: user ? user.split('@')[0] : false})
+    } else if (response.statusCode == 400){
+        res.render('noBlogs', {error: response.message, blogs: response.matchedBlogs, user: user ? user.split('@')[0] : false})
+    }else{
+        res.render('landpage', {error: null, blogs: response.matchedBlogs, user: user ? user.split('@')[0] : false})
+    }
+})
+
+
 // Route View Individual Public Post
 app.get('/@:authorEmail/:title', async (req, res) => {
-    const authorEmail = req.params.authorEmail;
+    // const authorEmail = req.params.authorEmail;
     const title_blog_id = req.params.title;
     const user =  req.cookies.user
 
@@ -97,7 +120,7 @@ app.get('/logout', (req, res) => {
 })
 
 
-// Protected Routes
+// Protected Route
 // Create new blog
 app.get('/new-story', auth.cookieAuth, (req, res) => {
     res.render('newStory', )
@@ -110,7 +133,7 @@ app.get('/new-story', auth.cookieAuth, (req, res) => {
 // Root Routes
 app.use('/user', userRoutes)
 app.use('/dashboard', dashboardRoute)
-app.use('/post', blogRoutes)
+app.use('/posts', blogRoutes)
 
 
 // catch Errors
