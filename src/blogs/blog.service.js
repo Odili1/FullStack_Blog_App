@@ -220,7 +220,7 @@ exports.searchBlogs = async (query) => {
             $or: [
                 {title: {$regex: query, $options: 'i'}},
                 {author: {$regex: query, $options: 'i'}},
-                {tags: {$all: {$regex: query, $options: 'i'}}}
+                {tags: {$elemMatch: {$regex: query, $options: 'i'}}}
             ]
         })
 
