@@ -224,7 +224,7 @@ exports.searchBlogs = async (query) => {
             ]
         })
 
-        console.log(matchedBlogs);
+        // console.log(matchedBlogs);
 
         if (!matchedBlogs){
             return {
