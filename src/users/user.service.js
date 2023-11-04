@@ -24,7 +24,7 @@ exports.signup = async(reqBody) => {
             password: password
         })
 
-        console.log(newUser);
+        // console.log(newUser);
 
         if (!newUser){
             return {

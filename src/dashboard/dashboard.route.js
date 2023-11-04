@@ -57,7 +57,7 @@ router.get('/@:name/:id/publish', async(req, res) => {
     const user = res.locals.user;
     const blog_id = req.params.id
 
-    console.log('pub', user);
+    // console.log('pub', user);
 
     const response = await dashboardService.publishPost(blog_id);
 
@@ -78,7 +78,7 @@ router.get('/@:name/:id', async(req, res) => {
     const user = res.locals.user;
     const blog_id = req.params.id
 
-    console.log('pub', user);
+    // console.log('pub', user);
 
     const response = await dashboardService.publishPost(blog_id);
 

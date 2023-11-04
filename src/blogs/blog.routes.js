@@ -25,7 +25,7 @@ router.get('/:user_id/:blog_id', async(req, res) => {
     // Save back to the database
     await blog.save()
 
-    console.log('read_count', blog);
+    // console.log('read_count', blog);
 
     let blogName = blog.title.split(" ").join('-')
 
@@ -43,8 +43,8 @@ router.post('/new-story', async (req, res) => {
     const user = res.locals.user;
     const reqBody = req.body;
 
-    console.log('owner', user);
-    console.log('blog', reqBody);
+    // console.log('owner', user);
+    // console.log('blog', reqBody);
 
     const response = await blogService.createBlog(user, reqBody);
 
