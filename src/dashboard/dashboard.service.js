@@ -51,7 +51,7 @@ exports.publishPost = async(blog_id) => {
             }
         }
 
-        console.log('published', pubBlog);
+        // console.log('published', pubBlog);
         
         return {
             statusCode: 200,
@@ -79,7 +79,7 @@ exports.viewPublishedPost = async(blog_id) => {
         date.splice(1,1,`${date[1]},`);
         pubBlog.published_time = date.join(' ');
         
-        console.log('view published blog', pubBlog);
+        // console.log('view published blog', pubBlog);
         
         if (!pubBlog){
             return {

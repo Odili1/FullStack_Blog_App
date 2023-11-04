@@ -23,7 +23,7 @@ exports.createBlog = async (user, reqBody) => {
         }
 
         // console.log(user);
-        console.log({tags: [...reqBody.tags.split(',')]});
+        // console.log({tags: [...reqBody.tags.split(',')]});
 
         const newBlog = await blogModel.create({
             title: reqBody.title,
@@ -43,14 +43,14 @@ exports.createBlog = async (user, reqBody) => {
                 blogs: null
             }
         }
-        console.log({newBlog});
+        // console.log({newBlog});
         return {
             statusCode: 200,
             message: "Blog created successfully",
             blogs: newBlog
         }
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         return {
             statusCode: 400,
             message: 'Something went wrong. Click here to go home',
@@ -125,7 +125,7 @@ exports.getPersonalBlogs = async (user) => {
 
             return blog
         });
-        console.log('timestmp', pubBlogs.published_time);
+        // console.log('timestmp', pubBlogs.published_time);
         
         // Draft Blogs & Format Date
         let draftBlogs = myBlogs.filter((blog) => blog.state == 'draft').map((blog) => {
@@ -138,7 +138,7 @@ exports.getPersonalBlogs = async (user) => {
 
 
         
-        console.log( 'timestamp for draft', draftBlogs.time_saved);
+        // console.log( 'timestamp for draft', draftBlogs.time_saved);
         
 
         if (pubBlogs.length == 0 || draftBlogs.length == 0) {
@@ -183,7 +183,7 @@ exports.viewPublicPost = async (title_blog_id) => {
         // Get Blog
         let blog = await blogModel.findOne({_id: blog_id});
 
-        console.log('timepublished', blog.time_published);
+        // console.log('timepublished', blog.time_published);
 
         // Format Date
         let date = `${blog.time_published}`.split(/(?<=\d{4})\s/)[0].split(' ').slice(1);
@@ -298,7 +298,7 @@ exports.updateBlog = async({user, blog_id, reqBody}) => {
             }
         }
 
-        console.log('task to update', updatedBlog);
+        // console.log('task to update', updatedBlog);
 
         if (!updatedBlog){
             return {
@@ -329,7 +329,7 @@ exports.updateBlog = async({user, blog_id, reqBody}) => {
 exports.deleteBlog = async(blog_id) => {
     try {
         const delBlog = await blogModel.findOneAndDelete({_id: blog_id});
-        console.log(delBlog);
+        // console.log(delBlog);
 
         if (!delBlog){
             return {
