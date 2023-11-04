@@ -78,7 +78,7 @@ app.get('/search', async (req, res) => {
     } else if (response.statusCode == 400){
         res.render('noBlogs', {error: response.message, blogs: response.matchedBlogs, user: user ? user.split('@')[0] : false})
     }else{
-        res.render('landpage', {error: null, blogs: response.matchedBlogs, user: user ? user.split('@')[0] : false})
+        res.render('landPage', {error: null, blogs: response.matchedBlogs, user: user ? user.split('@')[0] : false})
     }
 })
 
