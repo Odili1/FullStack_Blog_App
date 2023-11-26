@@ -19,12 +19,10 @@ router.get('/@:name', async (req, res) => {
     const response = await blogService.getPersonalBlogs(user);
 
     if (response.statusCode == 404){
-        // console.log('bug', response.draftBlogs);
         res.render('dashboard', {message: response.message, pubBlogs: response.pubBlogs, draftBlogs: response.draftBlogs, user})
     } else if (response.statusCode == 400){
         res.redirect('/404')
     }else{
-        // console.log(user);
         res.render('dashboard', {message: response.message, pubBlogs: response.pubBlogs, draftBlogs: response.draftBlogs, user})
     }
 });

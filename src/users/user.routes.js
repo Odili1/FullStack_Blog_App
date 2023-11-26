@@ -3,6 +3,7 @@ const userService = require('./user.service');
 const userMiddleware = require('./user.middlewares')
 const cookieParser = require('cookie-parser');
 const { cookieAuth } = require('../auth/globalAuth');
+const logger = require('../logs')
 
 router.use(cookieParser())
 
@@ -19,8 +20,10 @@ router.post('/signup', userMiddleware.validateSignup, async(req, res) => {
         res.cookie('jwt', response.token);
         res.cookie('user', response.newUser.email);
 
-        res.redirect('/')
-        // res.redirect(`/profile/@${response.newUser.email.split('@')[0]}`);
+        // res.redirect('/')
+        logger.info('(Validation Info) => User sign up validation successful')
+        logger.info('(Auth Info) => User Signed up')
+        res.redirect(`/dashboard/@${response.newUser.email.split('@')[0]}`);
     }
 })
 
@@ -28,9 +31,9 @@ router.post('/signup', userMiddleware.validateSignup, async(req, res) => {
 
 router.post('/login', userMiddleware.validateLogin, async(req, res) => {
     const reqBody = req.body;
-
+    
     const response = await userService.login(reqBody);
-
+    
     if (response.statusCode == 404){
         res.render('login', {message: response.message, user: null})
     }else if (response.statusCode == 400) {
@@ -38,9 +41,11 @@ router.post('/login', userMiddleware.validateLogin, async(req, res) => {
     }else{
         res.cookie('jwt', response.token);
         res.cookie('user', response.existingUser.email)
-
-        console.log('login');
+        
+        
         // res.redirect('/')
+        logger.info('(Validation Info) => User log in validation successful')
+        logger.info('(Auth Info) => User Logged in')
         res.redirect(`/dashboard/@${response.existingUser.email.split('@')[0]}`)
     }
 })

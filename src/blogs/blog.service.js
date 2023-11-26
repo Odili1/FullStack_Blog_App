@@ -1,11 +1,13 @@
 // const userModel = require('../models/user.model');
 const blogModel = require('./../models/blog.model');
+const logger = require('../logs')
 
 
 
 // New Blog Service
 exports.createBlog = async (user, reqBody) => {
     try {
+        logger.info('(Function info) => Create Blog function')
         // function to calculate reading time
         function readingTime (text){
             const words = text.split(/\s+/);
@@ -22,8 +24,6 @@ exports.createBlog = async (user, reqBody) => {
             }
         }
 
-        // console.log(user);
-        console.log({tags: [...reqBody.tags.split(',')]});
 
         const newBlog = await blogModel.create({
             title: reqBody.title,
@@ -43,14 +43,14 @@ exports.createBlog = async (user, reqBody) => {
                 blogs: null
             }
         }
-        console.log({newBlog});
+        
         return {
             statusCode: 200,
             message: "Blog created successfully",
             blogs: newBlog
         }
     } catch (error) {
-        console.log(error);
+        logger.error(`(Error info) => getBlog: ${error}`)
         return {
             statusCode: 400,
             message: 'Something went wrong. Click here to go home',
@@ -63,6 +63,7 @@ exports.createBlog = async (user, reqBody) => {
 // Get all Blogs Service
 exports.getBlogs = async () => {
     try {
+        logger.info('(Function info) => Get Blog function')
         let blogs = await blogModel.find({state: 'published'});
 
         if (blogs.length == 0) {
@@ -90,6 +91,7 @@ exports.getBlogs = async () => {
             }
         }
     } catch (error) {
+        logger.error(`(Error info) => getBlogs: ${error}`)
         return {
             statusCode: 400,
             message: 'Something went wrong while fecthing the blog',
@@ -102,6 +104,7 @@ exports.getBlogs = async () => {
 // Get Peersonal Blogs Service
 exports.getPersonalBlogs = async (user) => {
     try {
+        logger.info('(Function info) => Get Personl Blogs function')
         // Get blogs by user_id
         let myBlogs = await blogModel.find({user_id: user._id});
 
@@ -159,7 +162,7 @@ exports.getPersonalBlogs = async (user) => {
             }
         }
     } catch (error) {
-        console.log(error);
+        logger.error(`(Error info) => getPersonalBlog: ${error}`)
         return {
             statusCode: 400,
             message: 'Something went wrong while fecthing the blog',
@@ -177,6 +180,7 @@ exports.getPersonalBlogs = async (user) => {
 // View Public Post
 exports.viewPublicPost = async (title_blog_id) => {
     try {
+        logger.info('(Function info) => View Public Post function')
         title_blog_id = title_blog_id.split('-');
         const blog_id = title_blog_id[title_blog_id.length -1];
 
@@ -203,7 +207,7 @@ exports.viewPublicPost = async (title_blog_id) => {
             blog: blog
         }
     } catch (error) {
-        console.log(error);
+        logger.error(`(Error info) => viewPublicPost: ${error}`)
         return {
             statusCode: 400,
             message: 'Something went wrong while fecthing the blog',
@@ -215,6 +219,7 @@ exports.viewPublicPost = async (title_blog_id) => {
 // Search Public Post
 exports.searchBlogs = async (query) => {
     try {
+        logger.info('(Function info) => Search Blogs function')
         // Query Database
         const matchedBlogs = await blogModel.find({
             $or: [
@@ -224,7 +229,6 @@ exports.searchBlogs = async (query) => {
             ]
         })
 
-        console.log(matchedBlogs);
 
         if (!matchedBlogs){
             return {
@@ -250,7 +254,7 @@ exports.searchBlogs = async (query) => {
             }
         }
     } catch (error) {
-        console.log(error);
+        logger.error(`(Error info) => searchBlog: ${error}`)
         return {
             statusCode: 400,
             message: "Couldn't process request",
@@ -264,6 +268,7 @@ exports.searchBlogs = async (query) => {
 // Update Blog Service
 exports.updateBlog = async({user, blog_id, reqBody}) => {
     try {
+        logger.info('(Function info) => Update Blog function')
         if (!reqBody) {
             return {
                 statusCode: 422,
@@ -314,7 +319,7 @@ exports.updateBlog = async({user, blog_id, reqBody}) => {
             user
         }
     } catch (error) {
-        console.log(error);
+        logger.error(`(Error info) => updateBlog: ${error}`)
         return {
             statusCode: 400,
             message: 'Something went wrong. Click here to go home',
@@ -328,6 +333,7 @@ exports.updateBlog = async({user, blog_id, reqBody}) => {
 // Delete Blog Service
 exports.deleteBlog = async(blog_id) => {
     try {
+        logger.info('(Function info) => Delete Blog function')
         const delBlog = await blogModel.findOneAndDelete({_id: blog_id});
         console.log(delBlog);
 
@@ -347,6 +353,7 @@ exports.deleteBlog = async(blog_id) => {
             }
         }
     } catch (error) {
+        logger.error(`(Error info) => deletPost: ${error}`)
         return {
             statusCode: 400,
             message: 'Something went wrong. Click here to go home',

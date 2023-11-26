@@ -1,3 +1,4 @@
+// Modules
 const express = require('express');
 const path = require('path')
 const db = require('./config/database');
@@ -7,6 +8,8 @@ const blogService = require('./blogs/blog.service');
 const dashboardRoute = require('./dashboard/dashboard.route')
 const auth = require('./auth/globalAuth');
 const cookieParser = require('cookie-parser');
+const logger = require('./logs')
+
 
 require('dotenv').config();
 
@@ -39,22 +42,21 @@ app.use(cookieParser());
 app.get('/', async (req, res) => {
     // Get blogs to display
     const {blogs, message, statusCode} = await blogService.getBlogs();
-    // console.log('landingpage', blogs);
+    
     // Login Error
     const error = req.cookies.error;
     const user =  req.cookies.user
 
     if (statusCode == 404){
-        // console.log(response);
+        
         res.render('landPage', {error, message, blogs, user: user ? user : false})
     } else if (statusCode == 400){
         res.redirect('/404')
     }else{
-        // console.log(blogs);
         res.clearCookie('error')
         res.clearCookie('user')
-        console.log('user details', req.cookies.user);
-        // console.log('error', req.cookies.error);
+        logger.info('(Home Route) => User Details: ', req.cookies.user)
+        
         res.render('landPage', {error, message, blogs: blogs, user: user ? user.split('@')[0] : false})
     }
 });
@@ -73,7 +75,7 @@ app.get('/search', async (req, res) => {
     const response = await blogService.searchBlogs(query);
 
     if (response.statusCode == 404){
-        // console.log(response);
+        
         res.render('noBlogs', {error: response.message, blogs: response.matchedBlogs, user: user ? user.split('@')[0] : false})
     } else if (response.statusCode == 400){
         res.render('noBlogs', {error: response.message, blogs: response.matchedBlogs, user: user ? user.split('@')[0] : false})
@@ -136,11 +138,21 @@ app.use('/dashboard', dashboardRoute)
 app.use('/posts', blogRoutes)
 
 
-// catch Errors
+// Invlaid Route
 app.use("*", (req, res) => {
-    console.log('nothing');
+    logger.info('(Invalid Route) => Error in route')
   res.status(404).render("404", {user: (res.locals.user || null)})
 });
+
+
+// Global Error Handler
+app.use((err, req, res, next) => {
+    logger.error(`(Global Error Handler) => ${err.stack}`)
+    res.status(500).json({
+        data: null,
+        error: 'Server Error'
+    })
+})
 
 
 // PORT
